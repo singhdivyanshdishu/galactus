@@ -32,9 +32,13 @@ setup_git() {
 setup_python() {
     log_info "Setting up Python development environment..."
     
-    # Install common Python packages
-    pip install --user --upgrade pip
-    pip install --user virtualenv pipenv black flake8 mypy
+    # Install Python development tools via pacman
+    sudo pacman -S --needed --noconfirm python-pipx python-virtualenv
+    
+    # Install development tools via pipx (isolated environments)
+    pipx install black
+    pipx install flake8
+    pipx install mypy
     
     log_success "Python development tools installed"
 }
