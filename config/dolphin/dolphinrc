@@ -1,0 +1,18 @@
+[General]
+ShowFullPath=true
+ShowSpaceInfo=true
+Version=202
+ViewPropsTimestamp=2025,11,1,21,24,5.244
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled
+
+[PreviewSettings]
+Plugins=appimagethumbnail,audiothumbnail,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,svgthumbnail,textthumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,directorythumbnail
+
+[VersionControl]
+enabledPlugins=Git
