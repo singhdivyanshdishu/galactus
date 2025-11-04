@@ -15,8 +15,8 @@ Modern Arch Linux setup with niri compositor, optimized for development and prod
 ## 🚀 Quick Setup
 
 ```bash
-git clone https://github.com/yourusername/dotfiles.git
-cd dotfiles
+git clone https://github.com/singhdivyanshdishu/galactus.git
+cd galactus
 chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
@@ -24,7 +24,7 @@ chmod +x scripts/install.sh
 ## 📁 Structure
 
 ```
-dotfiles/
+galactus/
 ├── config/           # Configuration files
 │   ├── niri/         # niri compositor config
 │   ├── konsole/      # terminal profiles
