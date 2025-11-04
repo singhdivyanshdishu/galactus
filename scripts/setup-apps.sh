@@ -12,58 +12,31 @@ setup_dolphin() {
     local repo_root="$(dirname "$script_dir")"
     
     # Install Dolphin config
-    install_config "$repo_root/config/dolphin/dolphinrc" "$HOME/.config/dolphinrc"
+    if [[ -f "$repo_root/config/dolphin/dolphinrc" ]]; then
+        install_config "$repo_root/config/dolphin/dolphinrc" "$HOME/.config/dolphinrc"
+    fi
     
-    # Create window rules for transparency
-    cat > "$HOME/.config/kwinrulesrc" << EOF
-[1]
-Description=Dolphin Transparency
-clientmachine=localhost
-clientmachinematch=0
-opacityactive=85
-opacityactiverule=2
-opacityinactive=75
-opacityinactiverule=2
-wmclass=dolphin
-wmclasscomplete=false
-wmclassmatch=1
-
-[General]
-count=1
-rules=1
-EOF
-    
-    log_success "Dolphin configured with transparency"
+    log_success "Dolphin configured"
 }
 
 setup_konsole() {
     log_info "Setting up Konsole terminal..."
     
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
     local konsole_dir="$HOME/.local/share/konsole"
     ensure_dir "$konsole_dir"
     
-    # Create DankProfile
-    cat > "$konsole_dir/DankProfile.profile" << EOF
-[Appearance]
-ColorScheme=Breeze
-Font=Hack,12,-1,5,50,0,0,0,0,0
-
-[General]
-Name=DankProfile
-Parent=FALLBACK/
-
-[Interaction Options]
-CopyTextAsHTML=false
-TrimLeadingSpacesInSelectedText=true
-TrimTrailingSpacesInSelectedText=true
-
-[Scrolling]
-HistoryMode=1
-HistorySize=10000
-ScrollBarPosition=2
-EOF
+    # Install Konsole profiles and color schemes
+    if [[ -f "$repo_root/config/konsole/DankProfile.profile" ]]; then
+        install_config "$repo_root/config/konsole/DankProfile.profile" "$konsole_dir/DankProfile.profile"
+    fi
     
-    log_success "Konsole DankProfile created"
+    if [[ -f "$repo_root/config/konsole/DankColors.colorscheme" ]]; then
+        install_config "$repo_root/config/konsole/DankColors.colorscheme" "$konsole_dir/DankColors.colorscheme"
+    fi
+    
+    log_success "Konsole configured"
 }
 
 setup_ghostty() {
@@ -74,27 +47,11 @@ setup_ghostty() {
     local ghostty_dir="$HOME/.config/ghostty"
     ensure_dir "$ghostty_dir"
     
-    install_config "$repo_root/config/ghostty/config" "$ghostty_dir/config"
+    if [[ -f "$repo_root/config/ghostty/config" ]]; then
+        install_config "$repo_root/config/ghostty/config" "$ghostty_dir/config"
+    fi
     
     log_success "Ghostty configured"
-}
-
-setup_fish() {
-    log_info "Setting up Fish shell..."
-    
-    local script_dir="$(dirname "$0")"
-    local repo_root="$(dirname "$script_dir")"
-    local fish_dir="$HOME/.config/fish"
-    ensure_dir "$fish_dir"
-    
-    install_config "$repo_root/config/fish/config.fish" "$fish_dir/config.fish"
-    
-    # Set Fish as default shell
-    if command_exists fish; then
-        log_info "Setting Fish as default shell..."
-        chsh -s "$(which fish)"
-        log_success "Fish set as default shell"
-    fi
 }
 
 setup_starship() {
@@ -103,7 +60,15 @@ setup_starship() {
     local script_dir="$(dirname "$0")"
     local repo_root="$(dirname "$script_dir")"
     
-    install_config "$repo_root/config/starship/starship.toml" "$HOME/.config/starship.toml"
+    if [[ -f "$repo_root/config/starship/starship.toml" ]]; then
+        install_config "$repo_root/config/starship/starship.toml" "$HOME/.config/starship.toml"
+    fi
+    
+    # Add starship init to bashrc if not present
+    if ! grep -q "starship init bash" "$HOME/.bashrc"; then
+        echo 'eval "$(starship init bash)"' >> "$HOME/.bashrc"
+        log_success "Starship init added to bashrc"
+    fi
     
     log_success "Starship prompt configured"
 }
@@ -114,7 +79,6 @@ main() {
     setup_dolphin
     setup_konsole
     setup_ghostty
-    setup_fish
     setup_starship
     
     log_success "Applications setup complete!"
