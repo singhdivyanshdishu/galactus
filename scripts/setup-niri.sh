@@ -9,14 +9,17 @@ setup_niri_config() {
     log_info "Setting up niri configuration..."
     
     local config_dir="$HOME/.config/niri"
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
+    
     ensure_dir "$config_dir"
     
     # Install niri config
-    install_config "../config/niri/config.kdl" "$config_dir/config.kdl"
+    install_config "$repo_root/config/niri/config.kdl" "$config_dir/config.kdl"
     
     # Copy DMS configuration if it exists
-    if [[ -d "../config/niri/dms" ]]; then
-        cp -r "../config/niri/dms" "$config_dir/"
+    if [[ -d "$repo_root/config/niri/dms" ]]; then
+        cp -r "$repo_root/config/niri/dms" "$config_dir/"
         log_success "Installed DMS configuration"
     fi
     
