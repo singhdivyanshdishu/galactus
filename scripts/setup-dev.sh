@@ -60,7 +60,7 @@ setup_vscode() {
         code --install-extension ms-python.python
         code --install-extension ms-vscode.vscode-typescript-next
         code --install-extension esbenp.prettier-vscode
-        code --install-extension ms-vscode.vscode-eslint
+        code --install-extension dbaeumer.vscode-eslint
         code --install-extension bradlc.vscode-tailwindcss
         code --install-extension ms-vscode.vscode-json
         
