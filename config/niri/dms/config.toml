@@ -1,0 +1,43 @@
+# DMS Configuration for Galactus Setup
+# Desktop Management System configuration
+
+[general]
+theme = "dark"
+transparency = true
+blur = true
+
+[bar]
+enabled = true
+position = "top"
+height = 32
+background = "rgba(0, 0, 0, 0.8)"
+foreground = "#ffffff"
+
+[launcher]
+enabled = true
+fuzzy_search = true
+max_results = 10
+
+[notifications]
+enabled = true
+timeout = 5000
+position = "top-right"
+
+[audio]
+enabled = true
+step = 5
+
+[brightness]
+enabled = true
+step = 5
+
+[clipboard]
+enabled = true
+max_items = 50
+
+[lock]
+enabled = true
+timeout = 300
+
+[powermenu]
+enabled = true

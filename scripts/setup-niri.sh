@@ -17,10 +17,17 @@ setup_niri_config() {
     # Install niri config
     install_config "$repo_root/config/niri/config.kdl" "$config_dir/config.kdl"
     
-    # Copy DMS configuration if it exists
+    # Copy DMS configuration
     if [[ -d "$repo_root/config/niri/dms" ]]; then
         cp -r "$repo_root/config/niri/dms" "$config_dir/"
         log_success "Installed DMS configuration"
+    fi
+    
+    # Ensure DMS config directory exists in user config
+    ensure_dir "$HOME/.config/dms"
+    if [[ -f "$repo_root/config/niri/dms/config.toml" ]]; then
+        cp "$repo_root/config/niri/dms/config.toml" "$HOME/.config/dms/"
+        log_success "Installed DMS user configuration"
     fi
     
     log_success "niri configuration installed"
@@ -63,10 +70,39 @@ EOF
     log_success "Environment variables configured"
 }
 
+setup_dms() {
+    log_info "Setting up DMS (Desktop Management System)..."
+    
+    # Enable DMS user service if it exists
+    if systemctl --user list-unit-files | grep -q "dms.service"; then
+        systemctl --user enable dms.service
+        log_success "DMS service enabled"
+    else
+        log_warning "DMS service not found - will be started by niri"
+    fi
+    
+    # Create DMS autostart directory
+    ensure_dir "$HOME/.config/autostart"
+    
+    # Create DMS desktop entry for autostart
+    cat > "$HOME/.config/autostart/dms.desktop" << EOF
+[Desktop Entry]
+Type=Application
+Name=DMS
+Exec=dms run
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+EOF
+    
+    log_success "DMS autostart configured"
+}
+
 main() {
     log_info "Setting up niri compositor..."
     
     setup_niri_config
+    setup_dms
     setup_sddm
     setup_environment
     
