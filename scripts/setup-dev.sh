@@ -46,8 +46,8 @@ setup_python() {
 setup_node() {
     log_info "Setting up Node.js development environment..."
     
-    # Install common global packages
-    npm install -g yarn pnpm typescript ts-node nodemon prettier eslint
+    # Install common global packages with sudo
+    sudo npm install -g yarn pnpm typescript ts-node nodemon prettier eslint
     
     log_success "Node.js development tools installed"
 }
