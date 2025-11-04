@@ -77,13 +77,19 @@ install_pacman_packages() {
 install_aur_packages() {
     log_info "Installing AUR packages..."
     
-    # Remove conflicting VS Code package if it exists
-    if pacman -Qi code &>/dev/null; then
-        log_info "Removing conflicting 'code' package..."
-        sudo pacman -R --noconfirm code
+    # Check if visual-studio-code-bin is already installed
+    if pacman -Qi visual-studio-code-bin &>/dev/null; then
+        log_info "visual-studio-code-bin already installed, skipping..."
+    else
+        # Remove conflicting VS Code package if it exists
+        if pacman -Qi code &>/dev/null; then
+            log_info "Removing conflicting 'code' package..."
+            sudo pacman -R --noconfirm code
+        fi
+        
+        yay -S --needed --noconfirm visual-studio-code-bin
     fi
     
-    yay -S --needed --noconfirm visual-studio-code-bin
     log_success "AUR packages installed"
 }
 
