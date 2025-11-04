@@ -10,7 +10,7 @@ Modern Arch Linux setup with niri compositor, optimized for development and prod
 - **Terminal**: Konsole + Ghostty
 - **File Manager**: Dolphin (customized)
 - **Browser**: Zen Browser + Firefox
-- **Shell**: Bash + Fish
+- **Shell**: Bash + Starship
 
 ## 🚀 Quick Setup
 
@@ -43,7 +43,7 @@ galactus/
 │   ├── konsole/      # terminal profiles
 │   ├── dolphin/      # file manager settings
 │   ├── ghostty/      # terminal config
-│   └── fish/         # shell config
+│   └── starship/     # shell prompt config
 ├── scripts/          # Installation scripts
 │   ├── install.sh    # Main installer
 │   ├── packages.sh   # Package installation

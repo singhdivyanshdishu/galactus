@@ -21,7 +21,6 @@ CORE_PACKAGES=(
     "playerctl"               # Media control
     "fastfetch"               # System info
     "git"                     # Version control
-    "fish"                    # Shell
     "starship"                # Prompt
     "mate-polkit"             # Authentication agent
 )
