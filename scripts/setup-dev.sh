@@ -56,15 +56,21 @@ setup_vscode() {
     log_info "Setting up VS Code extensions..."
     
     if command_exists code; then
-        # Install useful extensions
-        code --install-extension ms-python.python
-        code --install-extension ms-vscode.vscode-typescript-next
-        code --install-extension esbenp.prettier-vscode
-        code --install-extension dbaeumer.vscode-eslint
-        code --install-extension bradlc.vscode-tailwindcss
-        code --install-extension ms-vscode.vscode-json
+        # Install useful extensions with error handling
+        extensions=(
+            "ms-python.python"
+            "ms-vscode.vscode-typescript-next"
+            "esbenp.prettier-vscode"
+            "dbaeumer.vscode-eslint"
+            "bradlc.vscode-tailwindcss"
+        )
         
-        log_success "VS Code extensions installed"
+        for ext in "${extensions[@]}"; do
+            log_info "Installing $ext..."
+            code --install-extension "$ext" || log_warning "Failed to install $ext"
+        done
+        
+        log_success "VS Code extensions installation completed"
     else
         log_warning "VS Code not found, skipping extension installation"
     fi
