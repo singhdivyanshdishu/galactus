@@ -8,8 +8,11 @@ source "$(dirname "$0")/common.sh"
 setup_dolphin() {
     log_info "Setting up Dolphin file manager..."
     
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
+    
     # Install Dolphin config
-    install_config "../config/dolphin/dolphinrc" "$HOME/.config/dolphinrc"
+    install_config "$repo_root/config/dolphin/dolphinrc" "$HOME/.config/dolphinrc"
     
     # Create window rules for transparency
     cat > "$HOME/.config/kwinrulesrc" << EOF
@@ -66,10 +69,12 @@ EOF
 setup_ghostty() {
     log_info "Setting up Ghostty terminal..."
     
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
     local ghostty_dir="$HOME/.config/ghostty"
     ensure_dir "$ghostty_dir"
     
-    install_config "../config/ghostty/config" "$ghostty_dir/config"
+    install_config "$repo_root/config/ghostty/config" "$ghostty_dir/config"
     
     log_success "Ghostty configured"
 }
@@ -77,10 +82,12 @@ setup_ghostty() {
 setup_fish() {
     log_info "Setting up Fish shell..."
     
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
     local fish_dir="$HOME/.config/fish"
     ensure_dir "$fish_dir"
     
-    install_config "../config/fish/config.fish" "$fish_dir/config.fish"
+    install_config "$repo_root/config/fish/config.fish" "$fish_dir/config.fish"
     
     # Set Fish as default shell
     if command_exists fish; then
@@ -93,7 +100,10 @@ setup_fish() {
 setup_starship() {
     log_info "Setting up Starship prompt..."
     
-    install_config "../config/starship/starship.toml" "$HOME/.config/starship.toml"
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
+    
+    install_config "$repo_root/config/starship/starship.toml" "$HOME/.config/starship.toml"
     
     log_success "Starship prompt configured"
 }
