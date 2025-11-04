@@ -52,7 +52,6 @@ UTILITY_PACKAGES=(
     "slurp"                   # Screen selection
     "lolcat"                  # Colorful output
     "htop"                    # Process monitor
-    "neofetch"                # System info (AUR)
 )
 
 # Flatpak packages
