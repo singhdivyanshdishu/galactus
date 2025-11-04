@@ -31,7 +31,6 @@ DEV_PACKAGES=(
     "python-pip"              # Python package manager
     "nodejs"                  # Node.js runtime
     "npm"                     # Node package manager
-    "code"                    # VS Code (from AUR)
     "base-devel"              # Build tools
 )
 
@@ -77,7 +76,14 @@ install_pacman_packages() {
 
 install_aur_packages() {
     log_info "Installing AUR packages..."
-    yay -S --needed --noconfirm neofetch visual-studio-code-bin
+    
+    # Remove conflicting VS Code package if it exists
+    if pacman -Qi code &>/dev/null; then
+        log_info "Removing conflicting 'code' package..."
+        sudo pacman -R --noconfirm code
+    fi
+    
+    yay -S --needed --noconfirm visual-studio-code-bin
     log_success "AUR packages installed"
 }
 
