@@ -78,8 +78,8 @@ install_pacman_packages() {
 install_aur_packages() {
     log_info "Installing AUR packages..."
     
-    # Install DMS (Desktop Management System) - Critical for taskbar and shortcuts
-    yay -S --needed --noconfirm dms-git
+    # Install DMS Shell (Desktop Management System) - Critical for taskbar and shortcuts
+    yay -S --needed --noconfirm dms-shell-bin
     
     # Check if visual-studio-code-bin is already installed
     if pacman -Qi visual-studio-code-bin &>/dev/null; then
