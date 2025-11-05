@@ -46,17 +46,49 @@ setup_python() {
 setup_node() {
     log_info "Setting up Node.js development environment..."
     
-    # Install common global packages with sudo
-    sudo npm install -g yarn pnpm typescript ts-node nodemon prettier eslint
+    # Check Node.js version and warn about potential issues
+    local node_version=$(node --version 2>/dev/null || echo "not found")
+    log_info "Current Node.js version: $node_version"
     
-    log_success "Node.js development tools installed"
+    # Clear npm cache to prevent module resolution issues
+    npm cache clean --force 2>/dev/null || true
+    
+    # Install common global packages with better error handling
+    packages=(
+        "yarn"
+        "pnpm" 
+        "typescript"
+        "ts-node"
+        "nodemon"
+        "prettier"
+        "eslint"
+    )
+    
+    for package in "${packages[@]}"; do
+        log_info "Installing $package..."
+        if npm list -g "$package" &>/dev/null; then
+            log_info "$package is already installed globally"
+        else
+            sudo npm install -g "$package" --no-audit --no-fund 2>/dev/null || {
+                log_warning "Failed to install $package globally"
+            }
+        fi
+    done
+    
+    log_success "Node.js development tools installation completed"
 }
 
 setup_vscode() {
     log_info "Setting up VS Code extensions..."
     
     if command_exists code; then
-        # Install useful extensions with error handling
+        # Check Node.js version compatibility
+        local node_version=$(node --version 2>/dev/null | cut -d'v' -f2 | cut -d'.' -f1)
+        if [[ -n "$node_version" && "$node_version" -lt 18 ]]; then
+            log_warning "Node.js version $node_version may cause issues. Consider upgrading to v18+"
+        fi
+        
+        # Install useful extensions with better error handling
         extensions=(
             "ms-python.python"
             "ms-vscode.vscode-typescript-next"
@@ -67,7 +99,22 @@ setup_vscode() {
         
         for ext in "${extensions[@]}"; do
             log_info "Installing $ext..."
-            code --install-extension "$ext" || log_warning "Failed to install $ext"
+            
+            # Check if extension is already installed
+            if code --list-extensions | grep -q "^$ext$"; then
+                log_info "$ext is already installed, skipping..."
+                continue
+            fi
+            
+            # Install with timeout and error handling
+            timeout 60 code --install-extension "$ext" --force 2>/dev/null || {
+                log_warning "Failed to install $ext (timeout or error)"
+                # Try alternative installation method
+                log_info "Retrying $ext installation..."
+                timeout 30 code --install-extension "$ext" --no-verify 2>/dev/null || {
+                    log_warning "Skipping $ext due to installation issues"
+                }
+            }
         done
         
         log_success "VS Code extensions installation completed"

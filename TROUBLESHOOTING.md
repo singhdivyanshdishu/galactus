@@ -12,6 +12,29 @@ ls scripts/install.sh  # Should exist
 chmod +x scripts/install.sh
 ```
 
+### VS Code Extension Installation Errors
+**Problem**: `FATAL ERROR: v8::ToLocalChecked Empty MaybeLocal` during extension installation
+
+**Causes**:
+- Node.js version compatibility issues
+- Corrupted npm cache
+- Memory issues during module resolution
+
+**Solutions**:
+```bash
+# 1. Clear npm cache
+npm cache clean --force
+
+# 2. Update Node.js to LTS version
+sudo pacman -S nodejs-lts-iron
+
+# 3. Reinstall VS Code extensions manually
+code --list-extensions | xargs -L 1 echo code --install-extension
+
+# 4. Reset VS Code extensions
+rm -rf ~/.vscode/extensions
+```
+
 ### Package Installation Fails
 ```bash
 # Update system first
