@@ -21,17 +21,6 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
 
-**⚠️ Important:** After installation, select "niri" from your login manager and log in.
-
-## 🔧 Troubleshooting
-
-If you experience issues like missing taskbar or non-working shortcuts:
-
-```bash
-# Run the fix script
-./scripts/fix-dms.sh
-```
-
 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed solutions.
 
 ## 📁 Structure
