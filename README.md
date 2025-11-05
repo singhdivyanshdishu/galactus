@@ -21,8 +21,6 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
 
-See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed solutions.
-
 ## 📁 Structure
 
 ```
