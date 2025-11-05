@@ -76,13 +76,64 @@ setup_bash_config() {
     # Install bashrc with fastfetch variants
     if [[ -f "$repo_root/config/bash/.bashrc" ]]; then
         install_config "$repo_root/config/bash/.bashrc" "$HOME/.bashrc"
-        log_success "Bash configuration installed"
     fi
+    
+    # Install bash_profile
+    if [[ -f "$repo_root/config/bash/.bash_profile" ]]; then
+        install_config "$repo_root/config/bash/.bash_profile" "$HOME/.bash_profile"
+    fi
+    
+    # Install profile
+    if [[ -f "$repo_root/config/bash/.profile" ]]; then
+        install_config "$repo_root/config/bash/.profile" "$HOME/.profile"
+    fi
+    
+    log_success "Bash configuration installed"
     
     # Add starship init to bashrc if not present
     if ! grep -q "starship init bash" "$HOME/.bashrc"; then
         echo 'eval "$(starship init bash)"' >> "$HOME/.bashrc"
         log_success "Starship init added to bashrc"
+    fi
+}
+
+setup_git_config() {
+    log_info "Setting up git configuration..."
+    
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
+    
+    if [[ -f "$repo_root/config/git/.gitconfig" ]]; then
+        install_config "$repo_root/config/git/.gitconfig" "$HOME/.gitconfig"
+        log_success "Git configuration installed"
+    fi
+}
+
+setup_fastfetch() {
+    log_info "Setting up fastfetch configuration..."
+    
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
+    local fastfetch_dir="$HOME/.config/fastfetch"
+    ensure_dir "$fastfetch_dir"
+    
+    if [[ -d "$repo_root/config/fastfetch" ]]; then
+        cp -r "$repo_root/config/fastfetch/"* "$fastfetch_dir/"
+        log_success "Fastfetch configuration installed"
+    fi
+}
+
+setup_desktop_entries() {
+    log_info "Setting up desktop entries..."
+    
+    local script_dir="$(dirname "$0")"
+    local repo_root="$(dirname "$script_dir")"
+    local apps_dir="$HOME/.local/share/applications"
+    ensure_dir "$apps_dir"
+    
+    if [[ -f "$repo_root/config/applications/zen-optimized.desktop" ]]; then
+        install_config "$repo_root/config/applications/zen-optimized.desktop" "$apps_dir/zen-optimized.desktop"
+        log_success "Desktop entries installed"
     fi
 }
 
@@ -93,6 +144,9 @@ main() {
     setup_konsole
     setup_ghostty
     setup_bash_config
+    setup_git_config
+    setup_fastfetch
+    setup_desktop_entries
     setup_starship
     
     log_success "Applications setup complete!"

@@ -31,7 +31,10 @@ galactus/
 │   ├── dolphin/      # file manager settings
 │   ├── ghostty/      # terminal config
 │   ├── starship/     # shell prompt config
-│   └── bash/         # bash configuration
+│   ├── bash/         # bash configuration
+│   ├── git/          # git configuration
+│   ├── fastfetch/    # system info display configs
+│   └── applications/ # desktop entries
 ├── scripts/          # Installation scripts
 │   ├── install.sh    # Main installer
 │   ├── packages.sh   # Package installation

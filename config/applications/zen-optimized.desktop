@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Zen Browser (Optimized)
+Exec=flatpak run --env=MOZ_ENABLE_WAYLAND=1 --env=MOZ_USE_XINPUT2=1 app.zen_browser.zen
+Icon=app.zen_browser.zen
+Type=Application
+Categories=Network;WebBrowser;
