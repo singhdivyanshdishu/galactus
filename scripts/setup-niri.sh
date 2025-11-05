@@ -15,7 +15,12 @@ setup_niri_config() {
     ensure_dir "$config_dir"
     
     # Install niri config
-    install_config "$repo_root/config/niri/config.kdl" "$config_dir/config.kdl"
+    if [[ -f "$repo_root/config/niri/config.kdl" ]]; then
+        install_config "$repo_root/config/niri/config.kdl" "$config_dir/config.kdl"
+    else
+        log_error "niri config file not found at $repo_root/config/niri/config.kdl"
+        return 1
+    fi
     
     # Copy DMS configuration
     if [[ -d "$repo_root/config/niri/dms" ]]; then

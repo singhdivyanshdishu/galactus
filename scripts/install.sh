@@ -49,11 +49,29 @@ install_yay() {
     fi
 }
 
-# Install DMS Shell (Critical for taskbar and shortcuts)
-install_dms() {
-    log_info "Installing DMS Shell (Desktop Management System)..."
+# Install and configure DMS properly
+setup_dms() {
+    log_info "Setting up DMS (Desktop Management System)..."
     
-    # DMS will be installed via packages.sh, just start it
+    # Ensure DMS is installed
+    if ! command -v dms &> /dev/null; then
+        log_error "DMS not found! This should have been installed by packages.sh"
+        exit 1
+    fi
+    
+    # Create DMS config directory
+    mkdir -p "$HOME/.config/dms"
+    
+    # Copy DMS config if it exists
+    if [[ -f "./config/niri/dms/config.toml" ]]; then
+        cp "./config/niri/dms/config.toml" "$HOME/.config/dms/"
+        log_success "DMS config installed"
+    fi
+    
+    # Fix permissions
+    chmod -R 755 "$HOME/.config/dms" 2>/dev/null || true
+    
+    # Start DMS
     dms run &
     log_success "DMS started"
 }
@@ -61,6 +79,12 @@ install_dms() {
 # Main installation steps
 main() {
     log_info "Starting Galactus dotfiles installation..."
+    
+    # Validate we're in the right directory
+    if [[ ! -f "./scripts/packages.sh" ]]; then
+        log_error "Please run this script from the galactus repository root directory"
+        exit 1
+    fi
     
     check_arch
     update_system
@@ -83,7 +107,7 @@ main() {
     ./scripts/setup-dev.sh
     
     # Install and setup DMS
-    install_dms
+    setup_dms
     
     log_success "Installation complete!"
     log_info "Please reboot to ensure all changes take effect."
