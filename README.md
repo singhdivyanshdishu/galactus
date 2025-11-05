@@ -30,7 +30,8 @@ galactus/
 │   ├── konsole/      # terminal profiles
 │   ├── dolphin/      # file manager settings
 │   ├── ghostty/      # terminal config
-│   └── starship/     # shell prompt config
+│   ├── starship/     # shell prompt config
+│   └── bash/         # bash configuration
 ├── scripts/          # Installation scripts
 │   ├── install.sh    # Main installer
 │   ├── packages.sh   # Package installation
@@ -48,6 +49,7 @@ galactus/
 - **Development Ready**: Python, Node.js, VS Code
 - **Media Controls**: MPV, playerctl integration
 - **Custom Themes**: Dank colors throughout
+- **Random Fastfetch**: 6 variants on terminal startup
 
 ## 📋 Installation Steps
 
